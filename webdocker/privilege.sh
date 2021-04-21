@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir /var/www/soj/app/storage/tmp
+mkdir /var/www/soj/app/storage/submission
 chown www-data:www-data -R /var/www/soj/app/storage
 chown www-data:www-data -R /var/www/soj/uploads
 chown www-data:www-data -R /var/www/soj/utility

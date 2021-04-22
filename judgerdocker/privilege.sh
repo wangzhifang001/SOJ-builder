@@ -3,9 +3,6 @@
 mkdir /var/www/soj/app/storage
 mkdir /var/www/soj/app/storage/tmp
 mkdir /var/www/soj/app/storage/submission
-mkdir /var/www/soj/uploads
-mkdir /var/www/soj/utility
-mkdir /var/www/soj/pictures
 chown www-data:www-data -R /var/www/soj/app/storage
 chown www-data:www-data -R /var/www/soj/uploads
 chown www-data:www-data -R /var/www/soj/utility

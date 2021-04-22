@@ -1,5 +1,3 @@
 #!/bin/bash
-su judger
-cd /home/judger/
-./judge_client start
+su judger -c "/home/judger/judge_client start"
 exec bash

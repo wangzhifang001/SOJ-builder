@@ -15,7 +15,7 @@ cat >/etc/apache2/sites-available/000-uoj.conf <<UOJEOF
     XSendFile On
     XSendFilePath /var/uoj_data
     XSendFilePath /var/www/soj/app/storage
-    XSendFilePath /opt/uoj/judger/uoj_judger/include
+    XSendFilePath /opt/judger/uoj_judger/include
 </VirtualHost>
 UOJEOF
 a2ensite 000-uoj.conf && a2dissite 000-default.conf

@@ -540,7 +540,7 @@ CREATE TABLE `submissions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `submissions`
+-- Table structure for table `submissions_history`
 --
 
 DROP TABLE IF EXISTS `submissions_history`;

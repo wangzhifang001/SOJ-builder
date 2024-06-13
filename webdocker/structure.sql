@@ -517,6 +517,8 @@ CREATE TABLE `submissions` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `problem_id` int(10) unsigned NOT NULL,
   `contest_id` int(10) unsigned NOT NULL,
+  `active_version_id` int(10) unsigned DEFAULT NULL,
+  `contest_final_version_id` int(10) unsigned DEFAULT NULL,
   `submit_time` datetime NOT NULL,
   `submitter` varchar(20) NOT NULL,
   `content` text NOT NULL,
@@ -534,6 +536,30 @@ CREATE TABLE `submissions` (
   `estimate` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `contest_id` (`contest_id`,`problem_id`)
+) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `submissions_history`
+--
+
+DROP TABLE IF EXISTS `submissions_history`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `submissions_history` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `submission_id` int(10) unsigned NOT NULL,
+  `judge_time` datetime DEFAULT NULL,
+  `judger_name` varchar(50) NOT NULL DEFAULT '',
+  `result` mediumblob NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `result_error` varchar(20) DEFAULT NULL,
+  `score` int(11) DEFAULT NULL,
+  `used_time` int(11) NOT NULL DEFAULT '0',
+  `used_memory` int(11) NOT NULL DEFAULT '0',
+  `status_details` varchar(100) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `submission` (`submission_id`,`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 

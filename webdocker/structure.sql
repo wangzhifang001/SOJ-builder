@@ -416,12 +416,12 @@ CREATE TABLE `problems` (
   `submission_requirement` text,
   `hackable` tinyint(1) NOT NULL DEFAULT '1',
   `extra_config` varchar(500) NOT NULL DEFAULT '{"view_content_type":"ALL","view_all_details_type":"ALL","view_details_type":"ALL"}',
-  `zan` int(11) NOT NULL,
+  `zan` int(11) NOT NULL DEFAULT '0',
   `ac_num` int(11) NOT NULL DEFAULT '0',
   `submit_num` int(11) NOT NULL DEFAULT '0',
   `data_locked` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2102 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -523,6 +523,7 @@ CREATE TABLE `submissions` (
   `language` varchar(15) NOT NULL,
   `tot_size` int(11) NOT NULL,
   `judge_time` datetime DEFAULT NULL,
+  `judger_name` varchar(50) NOT NULL DEFAULT '',
   `result` mediumblob NOT NULL,
   `status` varchar(20) NOT NULL,
   `result_error` varchar(20) DEFAULT NULL,

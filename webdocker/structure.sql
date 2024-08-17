@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.5.50, for debian-linux-gnu (x86_64)
+-- MySQL dump 10.13  Distrib 5.7.33, for Linux (x86_64)
 --
 -- Host: localhost    Database: soj
 -- ------------------------------------------------------
--- Server version	5.5.50-0ubuntu0.14.04.1
+-- Server version       5.7.33-0ubuntu0.18.04.1
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -14,6 +14,29 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `audit_log`
+--
+
+DROP TABLE IF EXISTS `audit_log`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `audit_log` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `scope` varchar(20) NOT NULL,
+  `type` varchar(50) NOT NULL,
+  `id_in_scope` int(10) unsigned NOT NULL,
+  `time` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `actor` varchar(20) NOT NULL,
+  `actor_remote_addr` varchar(50) NOT NULL,
+  `actor_http_x_forwarded_for` varchar(50) NOT NULL,
+  `reason` varchar(100) NOT NULL,
+  `details` text NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `id_in_scope` (`scope`,`id_in_scope`)
+) ENGINE=MyISAM AUTO_INCREMENT=1334 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Table structure for table `best_ac_submissions`
@@ -58,7 +81,7 @@ CREATE TABLE `blogs` (
   `latest_comment` datetime NOT NULL,
   `latest_commenter` varchar(20) COLLATE utf8_unicode_ci NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=1442 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -77,7 +100,7 @@ CREATE TABLE `blogs_comments` (
   `zan` int(11) NOT NULL,
   `reply_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=6224 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -94,7 +117,7 @@ CREATE TABLE `blogs_tags` (
   PRIMARY KEY (`id`),
   KEY `blog_id` (`blog_id`),
   KEY `tag` (`tag`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3169 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -144,7 +167,7 @@ CREATE TABLE `contests` (
   `extra_config` varchar(1500) NOT NULL DEFAULT '{"standings_version":2,"rating_k":400}',
   `zan` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=177 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -164,7 +187,7 @@ CREATE TABLE `contests_asks` (
   `reply_time` datetime NOT NULL,
   `is_hidden` tinyint(1) DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=314 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,11 +300,12 @@ CREATE TABLE `custom_test_submissions` (
   `submitter` varchar(20) NOT NULL,
   `content` text NOT NULL,
   `judge_time` datetime DEFAULT NULL,
+  `judger_name` varchar(50) NOT NULL DEFAULT '',
   `result` blob NOT NULL,
   `status` varchar(20) NOT NULL,
   `status_details` varchar(100) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=85772 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -335,12 +359,13 @@ CREATE TABLE `hacks` (
   `input_type` char(20) NOT NULL,
   `submit_time` datetime NOT NULL,
   `judge_time` datetime DEFAULT NULL,
+  `judger_name` varchar(50) NOT NULL DEFAULT '',
   `success` tinyint(1) DEFAULT NULL,
   `details` blob NOT NULL,
   PRIMARY KEY (`id`),
   KEY `submission_id` (`submission_id`),
   KEY `contest_id` (`contest_id`,`problem_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=5920 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -355,6 +380,25 @@ CREATE TABLE `important_blogs` (
   `level` int(11) NOT NULL,
   PRIMARY KEY (`blog_id`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `important_system_updates`
+--
+
+DROP TABLE IF EXISTS `important_system_updates`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `important_system_updates` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `scope` varchar(20) NOT NULL,
+  `title` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `blog_id` int(10) unsigned NOT NULL,
+  `update_time` datetime NOT NULL,
+  `updater` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `scope` (`scope`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -421,7 +465,7 @@ CREATE TABLE `problems` (
   `submit_num` int(11) NOT NULL DEFAULT '0',
   `data_locked` tinyint(1) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=2139 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -467,7 +511,7 @@ CREATE TABLE `problems_tags` (
   PRIMARY KEY (`id`),
   KEY `problem_id` (`problem_id`),
   KEY `tag` (`tag`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=3567 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -482,6 +526,38 @@ CREATE TABLE `problems_visibility` (
   `group_name` varchar(20) NOT NULL,
   PRIMARY KEY (`problem_id`,`group_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `removed_submissions`
+--
+
+DROP TABLE IF EXISTS `removed_submissions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `removed_submissions` (
+  `id` int(10) unsigned NOT NULL,
+  `problem_id` int(10) unsigned NOT NULL,
+  `contest_id` int(10) unsigned NOT NULL,
+  `active_version_id` int(10) unsigned DEFAULT NULL,
+  `submit_time` datetime NOT NULL,
+  `submitter` varchar(20) NOT NULL,
+  `content` text NOT NULL,
+  `language` varchar(15) NOT NULL,
+  `tot_size` int(11) NOT NULL,
+  `judge_time` datetime DEFAULT NULL,
+  `judger_name` varchar(50) NOT NULL DEFAULT '',
+  `result` mediumblob NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `result_error` varchar(20) DEFAULT NULL,
+  `score` int(11) DEFAULT NULL,
+  `used_time` int(11) NOT NULL DEFAULT '0',
+  `used_memory` int(11) NOT NULL DEFAULT '0',
+  `status_details` varchar(100) NOT NULL,
+  `estimate` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `contest_id` (`contest_id`,`problem_id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -518,7 +594,6 @@ CREATE TABLE `submissions` (
   `problem_id` int(10) unsigned NOT NULL,
   `contest_id` int(10) unsigned NOT NULL,
   `active_version_id` int(10) unsigned DEFAULT NULL,
-  `contest_final_version_id` int(10) unsigned DEFAULT NULL,
   `submit_time` datetime NOT NULL,
   `submitter` varchar(20) NOT NULL,
   `content` text NOT NULL,
@@ -536,7 +611,7 @@ CREATE TABLE `submissions` (
   `estimate` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `contest_id` (`contest_id`,`problem_id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=154669 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -560,7 +635,7 @@ CREATE TABLE `submissions_history` (
   `status_details` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `submission` (`submission_id`,`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=149696 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -588,7 +663,7 @@ DROP TABLE IF EXISTS `user_info`;
 CREATE TABLE `user_info` (
   `username` varchar(20) NOT NULL,
   `password` char(32) NOT NULL,
-  `api_password` char(10) NOT NULL,
+  `api_password` char(10) DEFAULT NULL,
   `rating` int(11) NOT NULL DEFAULT '1500',
   `ac_num` int(11) NOT NULL,
   `register_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -596,7 +671,7 @@ CREATE TABLE `user_info` (
   `http_x_forwarded_for` varchar(50) NOT NULL,
   `remember_token` char(60) NOT NULL,
   `latest_login` datetime NOT NULL,
-  `extra_config` varchar(250) NOT NULL DEFAULT '{}',
+  `extra_config` varchar(1500) DEFAULT NULL,
   PRIMARY KEY (`username`),
   KEY `rating` (`rating`,`username`),
   KEY `ac_num` (`ac_num`,`username`)
@@ -618,7 +693,7 @@ CREATE TABLE `user_msg` (
   `send_time` datetime NOT NULL,
   `read_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=4003 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -636,7 +711,7 @@ CREATE TABLE `user_system_msg` (
   `send_time` datetime NOT NULL,
   `read_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=24040 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
@@ -648,4 +723,4 @@ CREATE TABLE `user_system_msg` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2021-04-14 19:06:14
+-- Dump completed on 2024-08-17 19:44:34
